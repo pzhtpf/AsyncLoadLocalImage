@@ -1,0 +1,6 @@
+framework module AsyncLoadLocalImage {
+  umbrella header "AsyncLoadLocalImage-umbrella.h"
+
+  export *
+  module * { export * }
+}
