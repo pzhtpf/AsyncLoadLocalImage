@@ -7,15 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TPF_ImageCache.h"
+#import "TPF_LocalImageLoader.h"
 
-@interface loadLocalImage : NSObject{
+@interface TPF_LoadLocalImage : NSObject{
 
     //Callback blocks
     void (^successCallbackFile)(UIImage *image);
 }
-@property (retain, nonatomic) dispatch_queue_t ioQueue;
-@property (retain, nonatomic)NSOperationQueue *operationQueue;
-+ (loadLocalImage *)sharedImageCache;
--(void)loadLocalImageWithUrl:(NSString *)url callback:(void (^)(UIImage *image))callback;
--(void)saveLocalImageWithUrl:(NSString *)url image:(UIImage *)image callback:(void (^)(BOOL isFinished))callback;
++ (TPF_LoadLocalImage *)sharedImageCache;
+-(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoaderCompletedBlock)completedBlock;
 @end

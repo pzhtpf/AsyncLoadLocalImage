@@ -7,10 +7,13 @@
 //
 
 #import "TPF_loadLocalImage.h"
-#import "TPF_ImageDecoder.h"
+#import "NSObject+WebCacheOperation.m"
+#import "objc/runtime.h"
 
-@implementation loadLocalImage
-+ (loadLocalImage *)sharedImageCache {
+//static char url;
+
+@implementation TPF_LoadLocalImage
++ (TPF_LoadLocalImage *)sharedImageCache {
     static dispatch_once_t once;
     static id instance;
     dispatch_once(&once, ^{
@@ -25,38 +28,49 @@
     if(self){
     
         // Create IO serial queue
-        _ioQueue = dispatch_queue_create("com.softDecorationMaster.loadLocalImage", DISPATCH_QUEUE_SERIAL);
+//        _ioQueue = dispatch_queue_create("com.softDecorationMaster.loadLocalImageOperation", DISPATCH_QUEUE_SERIAL);
     }
     
     return self;
 }
--(void)loadLocalImageWithUrl:(NSString *)url callback:(void (^)(UIImage *image))callback{
+-(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoaderCompletedBlock)completedBlock{
 
     
-    dispatch_async(self.ioQueue, ^{
-       
-        UIImage  *diskImage  = [UIImage imageWithContentsOfFile:url];
-        
-        
-        diskImage = [self scaledImageForKey:url image:diskImage];
-        diskImage = [UIImage decodedImageWithImage:diskImage];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-        
-            callback(diskImage);
-        });
-
+    __weak __typeof(self)wself = self;
     
-    });
-
-}
-- (UIImage *)scaledImageForKey:(NSString *)key image:(UIImage *)image {
-    return SDScaledImageForKey(key, image);
-}
--(void)saveLocalImageWithUrl:(NSString *)url image:(UIImage *)image callback:(void (^)(BOOL))callback{
-
-       [UIImagePNGRepresentation(image) writeToFile:url options:NSAtomicWrite error:nil];
+   [[TPFImageCache sharedImageCache] queryDiskCacheForKey:url done:^(UIImage *image,TPFImageCacheType cacheType) {
+        
+        
+        if(image){
+            
+            completedBlock(image,nil,YES);
+            
+        }
+        
+        else{
+            
+           [[TPF_LocalImageLoader sharedLoader] loadLocalImage:url completed:^(UIImage *image,NSString *url, BOOL finished){
+                
+                if (!wself) return;
+                
+                [[TPFImageCache sharedImageCache] storeImage:image recalculateFromImage:NO imageData:nil forKey:url toDisk:YES];
+                
+                dispatch_main_sync_safe(^{
+                    if (!wself) return;
+                    else if (image) {
+                        
+                          completedBlock(image,nil,YES);
+                    }
+                });
+                
+                
+            }];
+            
+          
+        }
+        
+    }];
     
-       callback(YES);
+
 }
 @end
