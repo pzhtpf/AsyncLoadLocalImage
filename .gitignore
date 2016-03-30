@@ -18,7 +18,7 @@ profile
 DerivedData
 *.hmap
 *.ipa
-Example/AsyncLoadLocalImage/image/
+#Example/AsyncLoadLocalImage/image/
 
 # Bundler
 .bundle
