@@ -12,7 +12,7 @@
 
 @interface TPFViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property(strong,nonatomic)UICollectionView *collectionView;
-@property(strong,nonatomic)loadLocalImage *loadImage;
+@property(strong,nonatomic)TPFImageCache *loadImage;
 @property(strong,nonatomic)NSArray *data;
 @end
 
@@ -22,9 +22,13 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    _loadImage = [loadLocalImage sharedImageCache];
+    _loadImage = [TPFImageCache sharedImageCache];
     
-    _data = @[@"1.png",@"2.png",@"3.png",@"4.png",@"5.png",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"1.png",@"2.png",@"3.png",@"4.png",@"5.png",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png"];
+    _data = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"15.jpg"];
+    
+//      _data = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png"];
+    
+//     _data = @[@"1.jpg",@"2.jpg"];
     
     [self.view addSubview:[self createCollectionView]];
 }
@@ -74,7 +78,8 @@
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     //从重用队列获取
     collectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionCell" forIndexPath:indexPath];
-    
+    cell.imageView.image = nil;
+   
     NSString *path = [[NSBundle mainBundle]pathForResource:_data[indexPath.row] ofType:@""];
    
     //以下为三种加载方法，大家自行注释，试一下
@@ -82,19 +87,32 @@
     
 //    (1)
     
-//    [_loadImage loadLocalImageWithUrl:path callback:^(UIImage *image){
+//    __weak __typeof(UIImageView *)wself = cell.imageView;
 //    
-//        [cell.imageView setImage:image];
+//    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(UIImage *image, NSString *url, BOOL finished){
+//    
+//                wself.image = image;
+//                [wself setNeedsLayout];
+//    
 //    }];
+    
+//    [_loadImage queryDiskCacheForKey:path done:^(UIImage *image,TPFImageCacheType cacheType) {
+//        
+//        wself.image = image;
+//        [wself setNeedsLayout];
+//        
+//    }];
+    
     
 //    (2)
     
-    [cell.imageView loadLocalImageWithUrl:path callback:nil];
+    
+     [cell.imageView loadLocalImageWithUrl:path callback:nil];
     
 //    (3)
     
 //    UIImage *image = [UIImage imageWithContentsOfFile:path];
-//    
+//
 //    image = SDScaledImageForKey(path, image);
 //    image = [UIImage decodedImageWithImage:image];
 //    

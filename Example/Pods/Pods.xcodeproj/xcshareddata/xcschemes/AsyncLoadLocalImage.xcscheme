@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A84850E5B120AC988F92D529'
+               BlueprintIdentifier = 'A413A573B732BC4324B7D867'
                BlueprintName = 'AsyncLoadLocalImage'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'AsyncLoadLocalImage.framework'>
