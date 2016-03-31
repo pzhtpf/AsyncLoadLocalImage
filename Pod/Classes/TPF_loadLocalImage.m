@@ -7,7 +7,7 @@
 //
 
 #import "TPF_loadLocalImage.h"
-#import "NSObject+WebCacheOperation.m"
+#import "UIView+WebCacheOperation.h"
 #import "objc/runtime.h"
 
 //static char url;
@@ -27,8 +27,6 @@
 
     if(self){
     
-        // Create IO serial queue
-//        _ioQueue = dispatch_queue_create("com.softDecorationMaster.loadLocalImageOperation", DISPATCH_QUEUE_SERIAL);
     }
     
     return self;

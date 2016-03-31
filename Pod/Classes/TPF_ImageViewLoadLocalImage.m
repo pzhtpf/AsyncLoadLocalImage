@@ -11,9 +11,11 @@
 #import "objc/runtime.h"
 #import "TPF_ImageDecoder.h"
 #import "TPF_LocalImageLoader.h"
-#import "NSObject+WebCacheOperation.m"
+#import "UIView+WebCacheOperation.h"
+#import "TPF_loadLocalImage.h"
 
 static char urlKey;
+static char callBackKey;
 
 @implementation UIImageView(LoadLocalImage)
 
@@ -24,7 +26,7 @@ static char urlKey;
     // Drawing code
 }
 */
--(void)loadLocalImageWithUrl:(NSString *)url callback:(void (^)(UIImage *image))callback{
+-(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoadCompletedBlock)callback{
     
     [self sd_cancelImageLoadOperationWithKey:@"loadOperation"];
     [self sd_cancelImageLoadOperationWithKey:@"loadOperationFromCache"];
@@ -33,19 +35,30 @@ static char urlKey;
      objc_setAssociatedObject(self, &urlKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
      __weak __typeof(self)wself = self;
+
+    __block NSOperation *loadOperationFromCache;
+    __weak NSOperation *weakOperation = loadOperationFromCache;
     
-     NSOperation *loadOperationFromCache =  [[TPFImageCache sharedImageCache] queryDiskCacheForKey:url done:^(UIImage *image,TPFImageCacheType cacheType) {
+     weakOperation =  [[TPFImageCache sharedImageCache] queryDiskCacheForKey:url done:^(UIImage *image,TPFImageCacheType cacheType) {
         
         
         if(image){
         
         wself.image = image;
         [wself setNeedsLayout];
+        
+        
+        if(callback){
+            
+             NSString *url = objc_getAssociatedObject(wself, &urlKey);
+             callback(image,url,YES);
+            
+            }
             
         }
         
         else{
-            
+    
        NSOperation *loadOperation = [[TPF_LocalImageLoader sharedLoader] loadLocalImage:url completed:^(UIImage *image,NSString *url, BOOL finished){
             
             if (!wself) return;
@@ -53,14 +66,22 @@ static char urlKey;
             [[TPFImageCache sharedImageCache] storeImage:image recalculateFromImage:NO imageData:nil forKey:url toDisk:YES];
             
             dispatch_main_sync_safe(^{
+           
                 if (!wself) return;
+                
                 else if (image) {
-                    wself.image = image;
-                   [wself setNeedsLayout];
                     
+                    wself.image = image;
+                    [wself setNeedsLayout];
+                    
+                    if(callback){
+                        
+                        NSString *url = objc_getAssociatedObject(wself, &urlKey);
+                        callback(image,url,YES);
+                    }
                 }
             });
-            
+           
             
             }];
             
@@ -71,7 +92,5 @@ static char urlKey;
     
     if(loadOperationFromCache)
     [self sd_setImageLoadOperation:loadOperationFromCache forKey:@"loadOperationFromCache"];
-
-    
 }
 @end

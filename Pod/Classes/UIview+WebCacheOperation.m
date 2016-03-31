@@ -6,12 +6,12 @@
  * file that was distributed with this source code.
  */
 
-#import "NSObject+WebCacheOperation.m"
+#import "UIView+WebCacheOperation.h"
 #import "objc/runtime.h"
 
 static char loadOperationKey;
 
-@implementation NSObject (WebCacheOperation)
+@implementation UIView (WebCacheOperation)
 
 - (NSMutableDictionary *)operationDictionary {
     NSMutableDictionary *operations = objc_getAssociatedObject(self, &loadOperationKey);

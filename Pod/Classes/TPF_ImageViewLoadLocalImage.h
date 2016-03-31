@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^TPF_LocalImageLoadCompletedBlock)(UIImage *image,NSString *url, BOOL finished);
+
 @interface UIImageView(LoadLocalImage)
--(void)loadLocalImageWithUrl:(NSString *)url callback:(void (^)(UIImage *image))callback;
+-(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoadCompletedBlock)callback;
 @end

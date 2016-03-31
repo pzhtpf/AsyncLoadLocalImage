@@ -8,6 +8,7 @@
 @import AsyncLoadLocalImage;
 #import "TPFViewController.h"
 #import "collectionCell.h"
+#import "photoGroup.h"
 
 
 @interface TPFViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
@@ -107,7 +108,7 @@
 //    (2)
     
     
-     [cell.imageView loadLocalImageWithUrl:path callback:nil];
+    [cell.imageView loadLocalImageWithUrl:path callback:nil];
     
 //    (3)
     
@@ -122,7 +123,34 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    collectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: @"collectionCell" forIndexPath:indexPath];
     
+    NSString *path = [[NSBundle mainBundle]pathForResource:_data[indexPath.row] ofType:@""];
+    
+    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(UIImage *image, NSString *url, BOOL finished){
+
+        NSMutableArray *items = [NSMutableArray new];
+        
+        for (NSString *name in _data) {
+            
+            NSString *path = [[NSBundle mainBundle]pathForResource:name ofType:@""];
+            [items addObject:path];
+        }
+        
+        int row = floorf((float)indexPath.row/3);
+        int col = indexPath.row%3;
+        
+        CGRect selectViewFrame = [_collectionView convertRect:CGRectMake(col*(cell.imageView.frame.size.width+8), row*(cell.imageView.frame.size.height+10), cell.imageView.frame.size.width, cell.imageView.frame.size.height) toView:self.view];
+        
+        photoGroup *_photoGroup = [[photoGroup alloc] initItems:items selectViewFrame:selectViewFrame selectImage:image];
+        _photoGroup.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        _photoGroup.selectIndex = (int)indexPath.row;
+        //    _photoGroup.backImage = [self.view snapshotImage];
+        [self presentViewController:_photoGroup animated:NO completion:^(){}];
+
+    }];
+
+
 }
 - (void)didReceiveMemoryWarning
 {

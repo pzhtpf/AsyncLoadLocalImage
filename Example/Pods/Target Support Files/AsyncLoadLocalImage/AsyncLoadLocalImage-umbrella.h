@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 
 #import "NSData+ImageContentType.h"
-#import "NSObject+WebCacheOperation.h"
+#import "UIView+WebCacheOperation.h"
 #import "TPF_ImageCache.h"
 #import "TPF_ImageCompat.h"
 #import "TPF_ImageDecoder.h"

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NSObject (WebCacheOperation)
+@interface UIView (WebCacheOperation)
 
 /**
  *  Set the image load operation (storage in a UIView based dictionary)
