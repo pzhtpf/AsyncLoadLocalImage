@@ -15,7 +15,6 @@
 #import "TPF_loadLocalImage.h"
 
 static char urlKey;
-static char callBackKey;
 
 @implementation UIImageView(LoadLocalImage)
 
