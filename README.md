@@ -11,7 +11,6 @@
 <p>类似于SDWebImage ，异步加载。两种缓存机制：内存和硬盘。</p>
 <p>Similar to the SDWebImage, asynchronous loading. Two types of caching mechanism: memory and hard disk.</p>
 <br/>
-<br/>
 <p><img src="http://img.blog.csdn.net/20160331154903426" alt="这里写图片描述" title=""></p>
 <br/>
 ##<p><strong>两种用法(two usages)</strong></p>
@@ -29,7 +28,6 @@
 <li>异步加载图片(Asynchronous loading images)</li>
 </ol>
 <pre class="prettyprint" name="code"><code class="hljs objectivec has-numbering"><span class="hljs-preprocessor">#import <span class="hljs-title">&lt;AsyncLoadLocalImage/TPF_loadLocalImage.h&gt;</span></span>
-
 
 [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(<span class="hljs-built_in">UIImage</span> *image, <span class="hljs-built_in">NSString</span> *url, <span class="hljs-built_in">BOOL</span> finished){
 
