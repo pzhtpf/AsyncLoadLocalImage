@@ -9,8 +9,11 @@
 <p>If your iOS project needs to be loaded  multi high quality images in the project or sandbox, hope this framework can help you.</p>
 <p>类似于SDWebImage ，异步加载。两种缓存机制：内存和硬盘。</p>
 <p>Similar to the SDWebImage, asynchronous loading. Two types of caching mechanism: memory and hard disk.</p>
+<br/>
+<br/>
 <p><img src="http://img.blog.csdn.net/20160331154903426" alt="这里写图片描述" title=""></p>
-<p><strong>两种用法(two usages)</strong></p>
+<br/>
+##<p><strong>两种用法(two usages)</strong></p>
 <ol>
 <li>UIImageView(category)</li>
 </ol>
@@ -25,12 +28,12 @@
 
 <span class="hljs-comment">// do something</span>
 
-}];</code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ul></pre>
+}];</code><ul class="pre-numbering"></ul></pre>
 
 [cell<span class="hljs-variable">.imageView</span> loadLocalImageWithUrl:path callback:^(<span class="hljs-built_in">UIImage</span> *image, <span class="hljs-built_in">NSString</span> *url, <span class="hljs-built_in">BOOL</span> finished){
 
 <span class="hljs-comment">// do something</span>
-}]; </code><ul class="pre-numbering"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+}]; </code><ul class="pre-numbering"></ul></pre>
 
 ## Usage
 
