@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/AsyncLoadLocalImage.svg?style=flat)](http://cocoapods.org/pods/AsyncLoadLocalImage)
 [![Platform](https://img.shields.io/cocoapods/p/AsyncLoadLocalImage.svg?style=flat)](http://cocoapods.org/pods/AsyncLoadLocalImage)
 
+##简介(Introduction)
 <p>如果你的iOS项目中需要加载项目中或者沙盒中的多张高清大图时，希望这个框架能助你一臂之力。</p>
 <p>If your iOS project needs to be loaded  multi high quality images in the project or sandbox, hope this framework can help you.</p>
 <p>类似于SDWebImage ，异步加载。两种缓存机制：内存和硬盘。</p>
@@ -18,6 +19,12 @@
 <li>UIImageView(category)</li>
 </ol>
 <pre class="prettyprint" name="code"><code class="hljs objectivec has-numbering"><span class="hljs-preprocessor">#import <span class="hljs-title">&lt;AsyncLoadLocalImage/TPF_ImageViewLoadLocalImage.h&gt;</span></span>
+
+[cell<span class="hljs-variable">.imageView</span> loadLocalImageWithUrl:path callback:^(<span class="hljs-built_in">UIImage</span> *image, <span class="hljs-built_in">NSString</span> *url, <span class="hljs-built_in">BOOL</span> finished){
+
+<span class="hljs-comment">// do something</span>
+}]; </code><ul class="pre-numbering"></ul></pre>
+
 <ol>
 <li>异步加载图片(Asynchronous loading images)</li>
 </ol>
@@ -29,11 +36,6 @@
 <span class="hljs-comment">// do something</span>
 
 }];</code><ul class="pre-numbering"></ul></pre>
-
-[cell<span class="hljs-variable">.imageView</span> loadLocalImageWithUrl:path callback:^(<span class="hljs-built_in">UIImage</span> *image, <span class="hljs-built_in">NSString</span> *url, <span class="hljs-built_in">BOOL</span> finished){
-
-<span class="hljs-comment">// do something</span>
-}]; </code><ul class="pre-numbering"></ul></pre>
 
 ## Usage
 
