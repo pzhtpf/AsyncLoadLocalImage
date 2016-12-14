@@ -115,12 +115,14 @@ static char urlKey;
     [self sd_setImageLoadOperation:loadOperationFromCache forKey:@"loadOperationFromCache"];
 }
 - (void)switchImageWithTransition:(UIImage *)image {
-    
-    //set up crossfade transition
-    CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionFade;
-    //apply transition to imageview backing layer
-    [self.layer addAnimation:transition forKey:nil];
+   
+    if([TPF_LocalImageLoader sharedLoader].transitionAnimation != TransitionAnimationNone){
+        //set up crossfade transition
+        CATransition *transition = [CATransition animation];
+        transition.type = kCATransitionFade;
+        //apply transition to imageview backing layer
+        [self.layer addAnimation:transition forKey:nil];
+    }
     self.image = image;
 }
 @end

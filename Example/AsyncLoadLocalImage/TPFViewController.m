@@ -26,6 +26,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     _loadImage = [TPFImageCache sharedImageCache];
+    [TPF_LocalImageLoader sharedLoader].transitionAnimation = TransitionAnimationFade;
     
     _data = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"15.jpg"];
 //
