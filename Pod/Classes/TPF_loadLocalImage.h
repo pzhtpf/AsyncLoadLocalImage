@@ -17,4 +17,5 @@
 }
 + (TPF_LoadLocalImage *)sharedImageCache;
 -(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoaderCompletedBlock)completedBlock;
+-(void)loadLocalImageWithUrlToThumbnail:(NSString *)url maxPixelSize:(int)maxPixelSize callback:(TPF_LocalImageLoaderCompletedBlock)completedBlock;
 @end

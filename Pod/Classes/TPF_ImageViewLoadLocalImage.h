@@ -12,4 +12,5 @@ typedef void(^TPF_LocalImageLoadCompletedBlock)(UIImage *image,NSString *url, BO
 
 @interface UIImageView(LoadLocalImage)
 -(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoadCompletedBlock)callback;
+-(void)loadLocalImageWithUrlToThumbnail:(NSString *)url maxPixelSize:(int)maxPixelSize callback:(TPF_LocalImageLoadCompletedBlock)callback;
 @end

@@ -13,5 +13,5 @@ typedef void(^TPF_LocalImageNoParamsBlock)();
 
 @interface TPF_LocalImageLoader : NSObject{}
 + (TPF_LocalImageLoader *)sharedLoader;
--(NSOperation *)loadLocalImage:(NSString *)url completed:(TPF_LocalImageLoaderCompletedBlock)completedBlock;
+-(NSOperation *)loadLocalImage:(NSString *)url maxPixelSize:(NSNumber *)maxPixelSize completed:(TPF_LocalImageLoaderCompletedBlock)completedBlock;
 @end

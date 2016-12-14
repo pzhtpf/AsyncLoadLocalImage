@@ -26,6 +26,26 @@ static char urlKey;
 }
 */
 -(void)loadLocalImageWithUrl:(NSString *)url callback:(TPF_LocalImageLoadCompletedBlock)callback{
+
+    [self loadLocalImageWithUrlMethod:url maxPixelSize:@(self.frame.size.width*[UIScreen mainScreen].scale) callback:callback];
+}
+-(void)loadLocalImageWithUrlToThumbnail:(NSString *)url maxPixelSize:(int)maxPixelSize callback:(TPF_LocalImageLoadCompletedBlock)callback{
+    
+    [self loadLocalImageWithUrlMethod:url maxPixelSize:@(maxPixelSize) callback:callback];
+}
+-(void)loadLocalImageWithUrlMethod:(NSString *)url maxPixelSize:(NSNumber *)maxPixelSize callback:(TPF_LocalImageLoadCompletedBlock)callback{
+    
+    if(!url || url.length==0)
+        return;
+    
+    NSArray *pathArray = [url componentsSeparatedByString:@"/"];
+    
+    if(!pathArray || pathArray.count==0)
+        return;
+    
+    NSString *thumbUrlKey = pathArray[pathArray.count-1];
+    if(maxPixelSize)
+        thumbUrlKey = [NSString stringWithFormat:@"%@_%@",thumbUrlKey,maxPixelSize];
     
     [self sd_cancelImageLoadOperationWithKey:@"loadOperation"];
     [self sd_cancelImageLoadOperationWithKey:@"loadOperationFromCache"];
@@ -38,12 +58,13 @@ static char urlKey;
     __block NSOperation *loadOperationFromCache;
     __weak NSOperation *weakOperation = loadOperationFromCache;
     
-     weakOperation =  [[TPFImageCache sharedImageCache] queryDiskCacheForKey:url done:^(UIImage *image,TPFImageCacheType cacheType) {
+     weakOperation =  [[TPFImageCache sharedImageCache] queryDiskCacheForKey:thumbUrlKey done:^(UIImage *image,TPFImageCacheType cacheType) {
         
         
         if(image){
         
-        wself.image = image;
+//        wself.image = image;
+        [wself switchImageWithTransition:image];
         [wself setNeedsLayout];
         
         
@@ -58,11 +79,11 @@ static char urlKey;
         
         else{
     
-       NSOperation *loadOperation = [[TPF_LocalImageLoader sharedLoader] loadLocalImage:url completed:^(UIImage *image,NSString *url, BOOL finished){
+       NSOperation *loadOperation = [[TPF_LocalImageLoader sharedLoader] loadLocalImage:url maxPixelSize:maxPixelSize completed:^(UIImage *image,NSString *url, BOOL finished){
             
             if (!wself) return;
             
-            [[TPFImageCache sharedImageCache] storeImage:image recalculateFromImage:NO imageData:nil forKey:url toDisk:YES];
+            [[TPFImageCache sharedImageCache] storeImage:image recalculateFromImage:NO imageData:nil forKey:thumbUrlKey toDisk:YES];
             
             dispatch_main_sync_safe(^{
            
@@ -70,7 +91,8 @@ static char urlKey;
                 
                 else if (image) {
                     
-                    wself.image = image;
+//                    wself.image = image;
+                    [wself switchImageWithTransition:image];
                     [wself setNeedsLayout];
                     
                     if(callback){
@@ -91,5 +113,14 @@ static char urlKey;
     
     if(loadOperationFromCache)
     [self sd_setImageLoadOperation:loadOperationFromCache forKey:@"loadOperationFromCache"];
+}
+- (void)switchImageWithTransition:(UIImage *)image {
+    
+    //set up crossfade transition
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionFade;
+    //apply transition to imageview backing layer
+    [self.layer addAnimation:transition forKey:nil];
+    self.image = image;
 }
 @end

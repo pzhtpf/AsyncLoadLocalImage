@@ -22,7 +22,13 @@
 [cell<span class="hljs-variable">.imageView</span> loadLocalImageWithUrl:path callback:^(<span class="hljs-built_in">UIImage</span> *image, <span class="hljs-built_in">NSString</span> *url, <span class="hljs-built_in">BOOL</span> finished){
 
 <span class="hljs-comment">// do something</span>
-}]; </code><ul class="pre-numbering"></ul></pre>
+}]; 
+
+[cell.imageView loadLocalImageWithUrlToThumbnail:path maxPixelSize:600 callback:^(UIImage *image, NSString *url, BOOL finished) {
+
+}];   //生成缩略图
+
+</code><ul class="pre-numbering"></ul></pre>
 
 <ol>
 <li>异步加载图片(Asynchronous loading images)</li>
@@ -33,7 +39,14 @@
 
 <span class="hljs-comment">// do something</span>
 
-}];</code><ul class="pre-numbering"></ul></pre>
+}];
+
+
+[[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrlToThumbnail:path maxPixelSize:600 callback:^(UIImage *image, NSString *url, BOOL finished) {
+
+}];   //生成缩略图
+
+</code><ul class="pre-numbering"></ul></pre>
 
 ## Usage
 

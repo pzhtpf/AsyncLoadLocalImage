@@ -9,7 +9,6 @@
 #import "TPF_LocalImageLoader.h"
 #import "TPF_ImageDecoder.h"
 #import <ImageIO/ImageIO.h>
-#import "UIImage+ImageCompress.m"
 #import "objc/runtime.h"
 
 static char urlKey;
@@ -48,7 +47,7 @@ static char urlKey;
     [self.downloadQueue cancelAllOperations];
     self.completedBlock  = nil;
 }
--(NSOperation *)loadLocalImage:(NSString *)url completed:(TPF_LocalImageLoaderCompletedBlock)completedBlock{
+-(NSOperation *)loadLocalImage:(NSString *)url maxPixelSize:(NSNumber *)maxPixelSize completed:(TPF_LocalImageLoaderCompletedBlock)completedBlock{
     
     objc_setAssociatedObject(url, &urlKey,[[NSUUID UUID] UUIDString], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
@@ -56,7 +55,7 @@ static char urlKey;
     __weak __typeof(self)wself = self;
     
     operation = [[NSInvocationOperation alloc]initWithTarget:wself selector:@selector(downloadImage:)
-                                                      object:url];
+                                                      object:@[url,maxPixelSize?maxPixelSize:@(-1)]];
     
     [self addCompletedBlock:completedBlock url:url NoParamsBlock:^(){
     
@@ -66,11 +65,12 @@ static char urlKey;
     
     return operation;
 }
--(void)downloadImage:(NSString *)url{
+-(void)downloadImage:(NSArray *)array{
    
-    UIImage *diskImage = [UIImage imageWithContentsOfFile:url];
-    UIImage *compressedImage = [UIImage compressImage:diskImage
-                                        compressRatio:0.1f];
+    NSString *url = array[0];
+    int maxPixelSize = [array[1] intValue];
+    
+    UIImage *compressedImage = [self fmt_p_compress:nil maxPixelSize:maxPixelSize fileURL:url];
     
     [self performSelectorOnMainThread:@selector(callBackImage:) withObject:@[compressedImage,url] waitUntilDone:YES];
 }
@@ -111,5 +111,31 @@ static char urlKey;
 
 
     });
+}
+- (UIImage *)fmt_p_compress:(NSData *)imageData maxPixelSize:(int)maxPixelSize fileURL:(NSString *)fileURL{
+//    CGImageSourceRef src = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
+    
+    NSURL *imageURL = [NSURL fileURLWithPath:fileURL];
+    CGImageSourceRef src = CGImageSourceCreateWithURL((__bridge CFURLRef)imageURL, NULL);
+    
+    CFDictionaryRef options;
+    if(maxPixelSize !=-1)
+     options = (__bridge CFDictionaryRef) @{
+                                                           (id) kCGImageSourceCreateThumbnailWithTransform : @YES,
+                                                           (id) kCGImageSourceCreateThumbnailFromImageAlways : @YES,
+                                                           (id) kCGImageSourceThumbnailMaxPixelSize : @(maxPixelSize)
+                                                           };
+    else
+        options = (__bridge CFDictionaryRef) @{
+                                               (id) kCGImageSourceCreateThumbnailWithTransform : @YES,
+                                               (id) kCGImageSourceCreateThumbnailFromImageAlways : @YES
+                                               };
+    CGImageRef thumbnail = CGImageSourceCreateThumbnailAtIndex(src, 0, options);
+    CFRelease(src);
+    UIImage *img = [[UIImage alloc]initWithCGImage:thumbnail];
+    
+
+    
+    return img;
 }
 @end

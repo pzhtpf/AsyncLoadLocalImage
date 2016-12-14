@@ -160,11 +160,6 @@
         [self presentViewController:_photoGroup animated:NO completion:^(){}];
         
     }];
-    
-    
-    
-   
-
 
 }
 - (void)didReceiveMemoryWarning
