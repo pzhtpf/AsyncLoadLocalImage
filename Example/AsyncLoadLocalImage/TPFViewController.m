@@ -5,7 +5,9 @@
 //  Created by pzhtpf on 03/25/2016.
 //  Copyright (c) 2016 pzhtpf. All rights reserved.
 //
-@import AsyncLoadLocalImage;
+#import <AsyncLoadLocalImage/TPF_ImageViewLoadLocalImage.h>
+#import <AsyncLoadLocalImage/TPF_ImageCache.h>
+#import <AsyncLoadLocalImage/TPF_loadLocalImage.h>
 #import "TPFViewController.h"
 #import "collectionCell.h"
 #import "photoGroup.h"
@@ -26,10 +28,10 @@
     _loadImage = [TPFImageCache sharedImageCache];
     
     _data = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png",@"15.jpg"];
-    
+//
 //      _data = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.JPG",@"7.jpg",@"8.jpg",@"9.png",@"10.jpg",@"11.jpg",@"12.png",@"13.png",@"14.png"];
     
-//     _data = @[@"1.jpg",@"2.jpg"];
+//     _data = @[@"1.jpg"];
     
     [self.view addSubview:[self createCollectionView]];
 }
@@ -108,7 +110,10 @@
 //    (2)
     
     
-    [cell.imageView loadLocalImageWithUrl:path callback:nil];
+//    [cell.imageView loadLocalImageWithUrl:path callback:nil];
+    [cell.imageView loadLocalImageWithUrlToThumbnail:path maxPixelSize:cell.imageView.frame.size.width*[UIScreen mainScreen].scale callback:^(UIImage *image, NSString *url, BOOL finished) {
+        
+    }];
     
 //    (3)
     
@@ -127,8 +132,14 @@
     
     NSString *path = [[NSBundle mainBundle]pathForResource:_data[indexPath.row] ofType:@""];
     
-    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(UIImage *image, NSString *url, BOOL finished){
-
+//    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(UIImage *image, NSString *url, BOOL finished){
+//
+//       
+//
+//    }];
+    
+    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrlToThumbnail:path maxPixelSize:cell.imageView.frame.size.width*[UIScreen mainScreen].scale callback:^(UIImage *image, NSString *url, BOOL finished) {
+        
         NSMutableArray *items = [NSMutableArray new];
         
         for (NSString *name in _data) {
@@ -147,8 +158,12 @@
         _photoGroup.selectIndex = (int)indexPath.row;
         //    _photoGroup.backImage = [self.view snapshotImage];
         [self presentViewController:_photoGroup animated:NO completion:^(){}];
-
+        
     }];
+    
+    
+    
+   
 
 
 }

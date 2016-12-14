@@ -7,7 +7,7 @@
 //
 
 #import "photoGroup.h"
-@import AsyncLoadLocalImage;
+#import <AsyncLoadLocalImage/TPF_ImageViewLoadLocalImage.h>
 
 
 @interface photoGroup ()<UIScrollViewDelegate>
@@ -129,7 +129,8 @@
     tempScroll.tag = _selectedImageView.tag+100;
     [scrollView addSubview:tempScroll];
     
-    
+    [_selectedImageView loadLocalImageWithUrlToThumbnail:_imageData[_selectIndex] maxPixelSize:self.view.frame.size.width*[UIScreen mainScreen].scale callback:^(UIImage *image, NSString *url, BOOL finished) {
+    }];
     
     [UIView animateWithDuration:0.5 animations:^(){
         

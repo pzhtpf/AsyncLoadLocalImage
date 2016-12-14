@@ -1,21 +1,16 @@
 PODS:
-  - AsyncLoadLocalImage (0.1.0)
-  - FBSnapshotTestCase (2.1.0):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.0)
-  - FBSnapshotTestCase/Core (2.1.0)
-  - FBSnapshotTestCase/SwiftSupport (2.1.0):
-    - FBSnapshotTestCase/Core
+  - AsyncLoadLocalImage (0.2.1)
 
 DEPENDENCIES:
   - AsyncLoadLocalImage (from `../`)
-  - FBSnapshotTestCase
 
 EXTERNAL SOURCES:
   AsyncLoadLocalImage:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  AsyncLoadLocalImage: 9ce60e96d60b71d15e2f635030431da3eda78279
-  FBSnapshotTestCase: 366ecd378511d7716c79991cd8067d1eed23578d
+  AsyncLoadLocalImage: b7b3f47a4ba9add68a9fe9bba31253592c706b21
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 8b1b4d219acdb6e0fac2ef207f02dd520feef8a1
+
+COCOAPODS: 1.1.1
