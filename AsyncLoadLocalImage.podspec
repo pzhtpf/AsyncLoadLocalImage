@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "AsyncLoadLocalImage"
-  s.version          = "0.2.1"
+  s.version          = "0.3.0"
   s.summary          = "Asynchronous loading local Images."
 
 # This description is used to generate tags and improve search results.
@@ -31,9 +31,9 @@ Asynchronous loading local Images.Author:Roc.Tian;eamil:389744841@qq.com
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'AsyncLoadLocalImage' => ['Pod/Assets/*.png']
-  }
+# s.resource_bundles = {
+#   'AsyncLoadLocalImage' => ['Pod/Assets/*.png']
+#  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
