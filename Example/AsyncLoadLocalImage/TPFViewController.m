@@ -91,14 +91,14 @@
     
 //    (1)
     
-//    __weak __typeof(UIImageView *)wself = cell.imageView;
-//    
-//    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(UIImage *image, NSString *url, BOOL finished){
-//    
-//                wself.image = image;
-//                [wself setNeedsLayout];
-//    
-//    }];
+    __weak __typeof(UIImageView *)wself = cell.imageView;
+    
+    [[TPF_LoadLocalImage sharedImageCache] loadLocalImageWithUrl:path callback:^(UIImage *image, NSString *url, BOOL finished){
+    
+                wself.image = image;
+                [wself setNeedsLayout];
+    
+    }];
     
 //    [_loadImage queryDiskCacheForKey:path done:^(UIImage *image,TPFImageCacheType cacheType) {
 //        
@@ -112,9 +112,9 @@
     
     
 //    [cell.imageView loadLocalImageWithUrl:path callback:nil];
-    [cell.imageView loadLocalImageWithUrlToThumbnail:path maxPixelSize:cell.imageView.frame.size.width*[UIScreen mainScreen].scale callback:^(UIImage *image, NSString *url, BOOL finished) {
-        
-    }];
+//    [cell.imageView loadLocalImageWithUrlToThumbnail:path maxPixelSize:cell.imageView.frame.size.width*[UIScreen mainScreen].scale callback:^(UIImage *image, NSString *url, BOOL finished) {
+//        
+//    }];
     
 //    (3)
     

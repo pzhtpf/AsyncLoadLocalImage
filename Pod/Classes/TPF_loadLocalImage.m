@@ -60,7 +60,7 @@
         
         if(image){
             
-            completedBlock(image,nil,YES);
+            completedBlock(image,url,YES);
             
         }
         
