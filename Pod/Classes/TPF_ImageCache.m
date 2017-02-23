@@ -12,10 +12,10 @@
 #import <CommonCrypto/CommonDigest.h>
 
 // See https://github.com/rs/TPFWebImage/pull/1141 for discussion
-@interface AutoPurgeCache : NSCache
+@interface TPFAutoPurgeCache : NSCache
 @end
 
-@implementation AutoPurgeCache
+@implementation TPFAutoPurgeCache
 
 - (id)init
 {
@@ -39,9 +39,9 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60 * 60 * 24 * 7; // 1 week
 static unsigned char kPNGSignatureBytes[8] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 static NSData *kPNGSignatureData = nil;
 
-BOOL ImageDataHasPNGPreffix(NSData *data);
+BOOL TPFImageDataHasPNGPreffix(NSData *data);
 
-BOOL ImageDataHasPNGPreffix(NSData *data) {
+BOOL TPFImageDataHasPNGPreffix(NSData *data) {
     NSUInteger pngSignatureLength = [kPNGSignatureData length];
     if ([data length] >= pngSignatureLength) {
         if ([[data subdataWithRange:NSMakeRange(0, pngSignatureLength)] isEqualToData:kPNGSignatureData]) {
@@ -102,7 +102,7 @@ FOUNDATION_STATIC_INLINE NSUInteger TPFCacheCostForImage(UIImage *image) {
         _maxCacheAge = kDefaultCacheMaxCacheAge;
 
         // Init the memory cache
-        _memCache = [[AutoPurgeCache alloc] init];
+        _memCache = [[TPFAutoPurgeCache alloc] init];
         _memCache.name = fullNamespace;
 
         // Init the disk cache
@@ -218,7 +218,7 @@ FOUNDATION_STATIC_INLINE NSUInteger TPFCacheCostForImage(UIImage *image) {
 
                 // But if we have an image data, we will look at the preffix
                 if ([imageData length] >= [kPNGSignatureData length]) {
-                    imageIsPng = ImageDataHasPNGPreffix(imageData);
+                    imageIsPng = TPFImageDataHasPNGPreffix(imageData);
                 }
 
                 if (imageIsPng) {

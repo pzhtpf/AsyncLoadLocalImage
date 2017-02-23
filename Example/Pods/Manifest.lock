@@ -1,16 +1,16 @@
 PODS:
-  - AsyncLoadLocalImage (0.2.1)
+  - AsyncLoadLocalImage (0.3.3)
 
 DEPENDENCIES:
   - AsyncLoadLocalImage (from `../`)
 
 EXTERNAL SOURCES:
   AsyncLoadLocalImage:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  AsyncLoadLocalImage: b7b3f47a4ba9add68a9fe9bba31253592c706b21
+  AsyncLoadLocalImage: ec3d3b8bf89c7bfeadeaa03aa260052ddb4905c1
 
 PODFILE CHECKSUM: 8b1b4d219acdb6e0fac2ef207f02dd520feef8a1
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
